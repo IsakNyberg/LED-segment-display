@@ -1,41 +1,63 @@
 #!/usr/bin/env python
 
-from luma.led_matrix.device import max7219
-from luma.core.interface.serial import spi, noop
+import device
+from time import sleep
 
-from led_index import *
-
-def to_bytearray(address, data):
-    return bytes([address]) + bytes([address]) + bytes([data])
-
-device.data(to_bytearray(0b0010, 0b00101010))
-
-for i in range(0):
-    device.data(to_bytearray(0b0010, i))
-    time.sleep(0.1)
-
-class Device:
-    def __init__(self):
-        self.serial = spi(port=0, device=0, gpio=noop())
-        self.device = max7219(self.serial, cascaded=1)
-
-        self.registries = [0x00 for i in range(8)]
-
-    def send(address, data):
-        if address > 15 or data > 256:
-            raise ValueError("data must be < 256 and address < 15")
-        serial_data = bytes(address) + bytes(data)
-        device.data(serial_data)
-
-    def toggle_led(led_number, on):
-        registry_index = led_registry_index[led_number]
-        bit_index = led_bit_index[led_number]
-        if on:
-            self.registries[registry_index] |= bit_index
-        else:
-            # ~ in python is not nice :(
-            self.registries[registry_index] &= 0xFF - bit_index 
-
-        self.send(registry_index, self.registries[registry_index])
-
-
+if __name__ == "__main__":
+    board = device.Device()
+    
+    for i in range(2,17):
+        board.value_led(i)
+        sleep(0.1)
+    
+    board.bar_led(False)
+    
+    board.segment_display("HE O")
+    
+    sleep(1)
+    board.send(0x03, 0b00110110)
+    
+    sleep(1)
+    board.toggle_led(7, True)
+    sleep(0.5)
+    board.toggle_led([4,5,6,7,8,9], True)
+    sleep(0.5)
+    board.toggle_led([5,6,7,8], False)
+    sleep(0.5)
+    board.toggle_led(4, False)
+    sleep(0.5)
+    board.toggle_led(9, False)
+    
+    sleep(1)
+    board.red(1)
+    sleep(0.5)
+    board.red(False)
+    board.green(1)
+    sleep(0.5)
+    board.yellow(True)
+    board.blue(1)
+    sleep(0.5)
+    board.red(True)
+    
+    sleep(1)
+    for i in range(8):
+        board.middle_led(i)
+        sleep(0.5)
+    board.bar_led(False)
+    for i in range(10):
+        sleep(0.5)
+        board.middle_led(-i)
+    
+    board.segment_display("PI=")
+    sleep(1)
+    board.segment_display(3.142)
+    
+    sleep(1)
+    board.bar_led(True)
+    for i in range(16):
+        board.brightness(i)
+        board.segment_display(i)
+        sleep(1)
+    
+    sleep(1)
+    board.segment_display("done")

@@ -26,20 +26,26 @@ digit_register = {
     'C': 0b01001110,
     'd': 0b00111101,
     'E': 0b01001111,
-    'e': 0b01001111,
+    'e': 0b01101111,
     'F': 0b01000111,
     'H': 0b00110111,
+    'I': 0b00110000,
+    'i': 0b00110000,
     'L': 0b00001110,
     'N': 0b01110110,
+    'n': 0b00010101,
+    'O': 0b01111110,
+    'o': 0b00011101,
     'P': 0b01100111,
     'Y': 0b00111011,
     'V': 0b00111110,
     't': 0b00001111,
-
-    'o': 0b00011101,
+    
     "'": 0b01100011,
     ' ': 0b00000000,
     '.': 0b10000000,
+    ':': 0b10000000,
+    '=': 0b00001001,
     '-': 0b00000001,
 }
 
@@ -68,7 +74,7 @@ def float_to_segment(n, length=4):
 
     if n < 10 ** (length-1):  # this means the comma needs to be accounted for
         for i in str(n).rjust(length+1, ' ')[:length+1]:
-            if i == '.':  # add comma to previous digit
+            if digit_register[i] == 0x80:  # add comma to previous digit
                 res[-1] |= digit_register[i]
             else:
                 res.append(digit_register[i])
