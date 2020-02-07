@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 led_registry_index = {
     2: 0x05,
     3: 0x05,
