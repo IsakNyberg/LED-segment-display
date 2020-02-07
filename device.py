@@ -12,8 +12,8 @@ class Device:
         self.serial = spi(port=0, device=0, gpio=noop())
         self.device = max7219(self.serial, cascaded=1)
         
-        self.registries = [0x00 for i in range(8)]
-        # this is a copy of the registries on the chip registry 1 starts at index 0
+        self.registries = [0x00 for i in range(16)]
+        # this is a copy of the 16 registries on the chip 
         
     def __repr__(self):
         return str(self.registries)
@@ -33,7 +33,7 @@ class Device:
         serial_data = bytes([address, data])
         self.device.data(serial_data)
         if 1 < address < 9:  # The address was within the saved register
-            self.registries[address-1] = data
+            self.registries[address] = data
 
     def toggle_led_register(self, led_number, on):
         """
@@ -66,7 +66,7 @@ class Device:
         registry_indexes = [0x05, 0x06]  # The registry for the 16 LEDs in the bar
         for index in set(registry_indexes):
             self.send(index, on)
-            self.registries[index-1] = on
+            self.registries[index] = on
 
     def toggle_led(self, led_number, on):
         """

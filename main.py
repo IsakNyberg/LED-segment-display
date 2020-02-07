@@ -5,7 +5,6 @@ from time import sleep
 
 if __name__ == "__main__":
     board = device.Device()
-
     # The value function turn on all LEDs from 0 to the value
     for i in range(2, 17):
         board.value_led(i)
@@ -49,10 +48,10 @@ if __name__ == "__main__":
     # same as value but starts in the middle and can be either negative or positive
     for i in range(8):
         board.middle_led(i)
-        sleep(0.5)
+        sleep(0.2)
     board.bar_led(False)
     for i in range(10):
-        sleep(0.5)
+        sleep(0.2)
         board.middle_led(-i)
 
     # string and float display on the segment display
