@@ -2,6 +2,7 @@
 
 from luma.led_matrix.device import max7219
 from luma.core.interface.serial import spi, noop
+from time import sleep
 
 from led_index import *
 from segment import to_segment
@@ -148,6 +149,23 @@ class Device:
         for index in range(0x04):  # segment display is stored in registers 1-4
             self.registries[index] = segments[index]  # update register
             self.send(index+1, segments[index])  # send data
+            
+    def banner_display(self, text, speed=4):
+        """
+        Sequentially displays each letter going right to left. This is good for displaying text that is
+        longer than 4 character long
+        :arg text: The string to be displayed
+        :arg speed: Default 4, the number of letters to appear each second
+        """
+        if type(text) is not str:
+            text = str(text)
+            
+        disp = "    "
+        for letter in text:
+            disp = (disp + letter)[-4:]
+            self.segment_display(disp)
+            sleep(1/speed)
+            
     
     def brightness(self, level):
         """
