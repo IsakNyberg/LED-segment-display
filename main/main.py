@@ -55,7 +55,7 @@ if __name__ == "__main__":
         board.middle_led(-i)
 
     # string and float display on the segment display
-    board.segment_display("PI=")
+    board.segment_display("Pi=")
     sleep(1)
     board.segment_display(3.142)
     sleep(1)
@@ -67,5 +67,8 @@ if __name__ == "__main__":
         board.segment_display(i)  # int displayed on segment display
         sleep(1)
     
+    board.banner_display("..banner test..    ")
     sleep(1)
+    
     board.segment_display("done")
+    print("Done")

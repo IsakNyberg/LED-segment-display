@@ -176,7 +176,7 @@ class Device:
         if type(text) is not str:
             text = str(text)
             
-        disp = "    "
+        disp = ""
         for letter in text:
             disp = (disp + letter)[-4:]
             self.segment_display(disp)
