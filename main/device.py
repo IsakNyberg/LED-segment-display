@@ -162,9 +162,9 @@ class Device:
         :arg display: The item to be displayed int/str/float.
         """
         segments = to_segment(display)
-        for index in range(0x04):  # segment display is stored in registers 1-4
+        for index in range(0x01, 0x05):  # segment display is stored in registers 1-4
             self.registries[index] = segments[index]  # update register
-            self.send(index+1, segments[index])  # send data
+            self.send(index, segments[index])  # send data
             
     def banner_display(self, text, speed=4):
         """
