@@ -163,8 +163,8 @@ class Device:
         """
         segments = to_segment(display)
         for index in range(0x01, 0x05):  # segment display is stored in registers 1-4
-            self.registries[index] = segments[index]  # update register
-            self.send(index, segments[index])  # send data
+            self.registries[index] = segments[index-1]  # update register
+            self.send(index, segments[index-1])  # send data
             
     def banner_display(self, text, speed=4):
         """
