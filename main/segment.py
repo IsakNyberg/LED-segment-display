@@ -112,11 +112,13 @@ digit_register = {
 
 def to_segment(n, length=4):
     if type(n) is int:
-        return int_to_segment(n, length)
-    if type(n) is str:
-        return str_to_segment(n, length)
-    if type(n) is float:
-        return float_to_segment(n, length)
+        res = int_to_segment(n, length)
+    elif type(n) is float:
+        res = float_to_segment(n, length)
+    else: # string
+        res = str_to_segment(n, length)
+
+    return res
 
 def int_to_segment(n, length=4):
     res = []
@@ -132,7 +134,6 @@ def str_to_segment(n, length=4):
 
 def float_to_segment(n, length=4):
     res = []
-
     if n < 10 ** (length-1):  # this means the comma needs to be accounted for
         for i in str(n).rjust(length+1, ' ')[:length+1]:
             if digit_register[i] == 0x80:  # add comma to previous digit
