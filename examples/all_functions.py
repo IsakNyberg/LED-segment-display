@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-import device
+from max7219_drivers_pi import Device
 from time import sleep
 
 if __name__ == "__main__":
-    board = device.Device()
+    board = Device()
     # The value function turn on all LEDs from 0 to the value
     for i in range(2, 17):
         board.value_led(i)
