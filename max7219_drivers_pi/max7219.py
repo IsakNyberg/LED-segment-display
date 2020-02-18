@@ -8,7 +8,7 @@ from led_index import *
 from segment import to_segment
 
 
-class Device:
+class Driver:
     def __init__(self):
         self.serial = spi(port=0, device=0, gpio=noop())
         self.device = max7219(self.serial, cascaded=1)
