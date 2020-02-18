@@ -6,7 +6,6 @@ import sys
 file_dir = os.path.dirname(__file__)
 sys.path.append(file_dir)
 
-
-import device
+import max7219
 import led_index
 import segment
