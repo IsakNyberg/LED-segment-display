@@ -9,7 +9,7 @@ setuptools.setup(
     name="max7219_drivers_pi",
     version="0.0.1",
     author="Isak Nyberg",
-    description="Drivers for the MAX7219 board.",
+    description="Drivers for the MAX7219 board Raspberry Pi.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/IsakNyberg/max7219_drivers_pi",
