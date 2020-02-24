@@ -11,3 +11,5 @@ Install instructions:
     $ python3 -m pip install .
 
 ![Register data](../master/resources/img/register.png "Data register")
+
+![The board](../master/resources/img/Board.png "The board")
