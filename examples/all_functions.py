@@ -67,8 +67,12 @@ if __name__ == "__main__":
         board.segment_display(i)  # int displayed on segment display
         sleep(1)
     
-    board.banner_display("..banner test..    ")
+    board.banner_display("...banner test...    ")
     sleep(1)
     
     board.segment_display("done")
     print("Done")
+    
+    while 1:  # Clock
+        board.segment_time()
+        sleep(1)

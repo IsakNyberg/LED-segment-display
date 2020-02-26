@@ -6,7 +6,7 @@ from time import sleep
 import datetime as dt
 
 from led_index import *
-from segment import to_segment
+from segment import to_segment, time_to_segment
 
 
 class Driver:
@@ -169,16 +169,13 @@ class Driver:
 
     def segment_time(self):
         """
-        Displays the input on the 7 segment display. The length can max be 4 excluding the decimal point
-        for floats.
-        :arg display: The item to be displayed int/str/float.
+        Displayd current time on segment display with a d.p. between the hour and minute-
+        This does not update itself and the function needs to be called very second/minute for it to be accurate
         """
-
-        segments = to_segment(dt.datetime.now().hour)
-        segments[1] += 0b10000000
-        segments += to_segment(dt.datetime.now().minute)
-
-        self.segment_display(segments)
+        segments = time_to_segment(dt.datetime.now().hour, dt.datetime.now().minute)
+        for index in range(0x01, 0x05):  # segment display is stored in registers 1-4
+            self.registries[index] = segments[index-1]  # update register
+            self.send(index, segments[index-1])  # send data
             
     def banner_display(self, text, speed=4):
         """
