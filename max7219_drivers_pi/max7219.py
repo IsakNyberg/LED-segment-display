@@ -3,6 +3,7 @@
 from luma.led_matrix.device import max7219
 from luma.core.interface.serial import spi, noop
 from time import sleep
+import datetime as dt
 
 from led_index import *
 from segment import to_segment
@@ -165,6 +166,19 @@ class Driver:
         for index in range(0x01, 0x05):  # segment display is stored in registers 1-4
             self.registries[index] = segments[index-1]  # update register
             self.send(index, segments[index-1])  # send data
+
+    def segment_time(self):
+        """
+        Displays the input on the 7 segment display. The length can max be 4 excluding the decimal point
+        for floats.
+        :arg display: The item to be displayed int/str/float.
+        """
+
+        segments = to_segment(dt.datetime.now().hour)
+        segments[1] += 0b10000000
+        segments += to_segment(dt.datetime.now().minute)
+
+        self.segment_display(segments)
             
     def banner_display(self, text, speed=4):
         """
