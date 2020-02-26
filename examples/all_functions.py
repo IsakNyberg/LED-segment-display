@@ -5,6 +5,7 @@ from time import sleep
 
 if __name__ == "__main__":
     board = max7219.Driver()
+    
     # The value function turn on all LEDs from 0 to the value
     for i in range(2, 17):
         board.value_led(i)
@@ -74,5 +75,5 @@ if __name__ == "__main__":
     print("Done")
     
     while 1:  # Clock
-        board.segment_time()
+        board.segment_time(True)
         sleep(1)

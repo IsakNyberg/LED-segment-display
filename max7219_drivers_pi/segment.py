@@ -146,12 +146,12 @@ def float_to_segment(n, length=4):
 
 def time_to_segment(hour, minute):
     res = []
-    for digit in str(hour):  # convert hour
+    for digit in str(hour).rjust(2, '0'):  # convert hour
         res.append(digit_register[digit])
         
     res[-1] |= digit_register['.']  # add comma between hour and minute
     
-    for digit in str(minute):  # convert minute 
+    for digit in str(minute).rjust(2, '0'):  # convert minute 
         res.append(digit_register[digit])
         
     return res

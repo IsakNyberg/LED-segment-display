@@ -36,7 +36,7 @@ class Driver:
         self.device.data(serial_data)
 
         # Save the sent data to the local registry
-        # This is often redundant but it ensures both registers are in sync
+        # This is sometimes redundant but it ensures both registers are in sync
         self.registries[address] = data
 
     def toggle_led_register(self, led_number, on=True):
@@ -164,19 +164,26 @@ class Driver:
         """
         segments = to_segment(display)
         for index in range(0x01, 0x05):  # segment display is stored in registers 1-4
-            self.registries[index] = segments[index-1]  # update register
             self.send(index, segments[index-1])  # send data
 
-    def segment_time(self):
+    def segment_time(self, display_seconds=False):
         """
         Displayd current time on segment display with a d.p. between the hour and minute-
         This does not update itself and the function needs to be called very second/minute for it to be accurate
+        :arg display_seconds: True if the seconds should be displayed with the led bar
         """
-        segments = time_to_segment(dt.datetime.now().hour, dt.datetime.now().minute)
+        hour = dt.datetime.now().hour
+        minute = dt.datetime.now().minute
+        second = dt.datetime.now().second
+        
+        segments = time_to_segment(hour, minute)
         for index in range(0x01, 0x05):  # segment display is stored in registers 1-4
-            self.registries[index] = segments[index-1]  # update register
-            self.send(index, segments[index-1])  # send data
-            
+            self.send(index, segments[index-1])  # the index is the index of the register not of the segments hence -1
+        
+        if display_seconds:
+            # y = (15/58)x + (43/58) such that 0->0, 1->1, 58->15, 59->16
+            self.value_led(int(second/3.867+0.75))
+        
     def banner_display(self, text, speed=4):
         """
         Sequentially displays each letter going right to left. This is good for displaying text that is
